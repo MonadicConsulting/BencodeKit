@@ -6,13 +6,17 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
 import XCTest
 @testable import BencodeKit
 
 class BencodeKitTests: XCTestCase {
     
     func testStringParsing() {
-        testParsing("12:123456789123", .string("123456789123"))
+        let data = "12:123456789123".data(using: .ascii)!
+        let (match, _) = try! bdecodeString(data, data.startIndex)
+        print(match.description)
+//        testParsing("12:123456789123", .bytes("123456789123"))
         
         expectException("-13:40")
         expectException("-13:40")
@@ -22,7 +26,7 @@ class BencodeKitTests: XCTestCase {
     }
     
     func testListParsing() {
-        testParsing("li-123456789e4:nulle", .list([.integer(-123456789), .string("null")]))
+        testParsing("li-123456789e4:nulle", Bencode([.integer(-123456789), Bencode("null")!]))
         compareToReencoding("li-123456789e4:nulle")
     }
     
@@ -34,6 +38,9 @@ class BencodeKitTests: XCTestCase {
     }
     
     func testIntegerParsing() {
+        let data = "i-123456789e".data(using: .ascii)!
+        print(try! bdecodeInteger(data, data.startIndex))
+        
         testParsing("i-123456789e", .integer(-123456789))
         
         expectException("ie")
@@ -43,19 +50,33 @@ class BencodeKitTests: XCTestCase {
         expectException("id")
         expectException("i")
     }
+    
+    func testTorrentFiles() {
+        Bundle(for: type(of: self))
+            .paths(forResourcesOfType: "torrent", inDirectory: "Torrents")
+            .flatMap(FileManager.default.contents)
+            .forEach { encoded in
+                let decoded = try! Bencode.decode(encoded)
+                print(decoded.description)
+                let reEncoded = decoded.encoded()
+                XCTAssertEqual(encoded, reEncoded)
+        }
+    }
 }
 
 func compareToReencoding(_ param: String) {
-    XCTAssertEqual(try! Bencode.decode(param).encoded(), param)
+    let data = param.asciiData
+    let returnedData = try! Bencode.decode(data).encoded()
+    XCTAssertEqual(returnedData, data)
 }
 
 func testParsing(_ param: String, _ compareTo: Bencode) {
-    XCTAssertEqual(try! Bencode.decode(param), compareTo)
+    XCTAssertEqual(try! Bencode.decode(param.asciiData), compareTo)
 }
 
 func expectException(_ param: String) {
     do {
-        _ = try Bencode.decode(param)
+        _ = try Bencode.decode(param.asciiData)
         XCTFail()
     } catch {}
 }

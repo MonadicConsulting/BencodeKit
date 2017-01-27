@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9EA794CA1E3B0E44000D6C50 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794C91E3B0E44000D6C50 /* Extensions.swift */; };
+		9EA794CD1E3B0F92000D6C50 /* Bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798331E3AEE0B005A7C9E /* Bencode.swift */; };
+		9EA794CE1E3B1691000D6C50 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798391E3AEE1F005A7C9E /* String.swift */; };
+		9EA794CF1E3B1D42000D6C50 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798381E3AEE1F005A7C9E /* List.swift */; };
+		9EA794D01E3B1E0F000D6C50 /* Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794CB1E3B0F82000D6C50 /* Decode.swift */; };
+		9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798361E3AEE1F005A7C9E /* Dictionary.swift */; };
 		9EB798241E3AE7EA005A7C9E /* BencodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */; };
 		9EB798291E3AE7EA005A7C9E /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798281E3AE7EA005A7C9E /* Tests.swift */; };
 		9EB7982B1E3AE7EA005A7C9E /* BencodeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9EB798341E3AEE0B005A7C9E /* Bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798331E3AEE0B005A7C9E /* Bencode.swift */; };
-		9EB7983A1E3AEE1F005A7C9E /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798361E3AEE1F005A7C9E /* Dictionary.swift */; };
 		9EB7983B1E3AEE1F005A7C9E /* Integer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798371E3AEE1F005A7C9E /* Integer.swift */; };
-		9EB7983C1E3AEE1F005A7C9E /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798381E3AEE1F005A7C9E /* List.swift */; };
-		9EB7983D1E3AEE1F005A7C9E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798391E3AEE1F005A7C9E /* String.swift */; };
+		9EB7983F1E3AF9C3005A7C9E /* Torrents in Resources */ = {isa = PBXBuildFile; fileRef = 9EB7983E1E3AF9C3005A7C9E /* Torrents */; };
+		9EB798401E3AF9C5005A7C9E /* Torrents in Resources */ = {isa = PBXBuildFile; fileRef = 9EB7983E1E3AF9C3005A7C9E /* Torrents */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9EA794C91E3B0E44000D6C50 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Types/Extensions.swift; sourceTree = "<group>"; };
+		9EA794CB1E3B0F82000D6C50 /* Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decode.swift; sourceTree = "<group>"; };
 		9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BencodeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BencodeKit.h; sourceTree = "<group>"; };
 		9EB7981E1E3AE7EA005A7C9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +45,7 @@
 		9EB798371E3AEE1F005A7C9E /* Integer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Integer.swift; sourceTree = "<group>"; };
 		9EB798381E3AEE1F005A7C9E /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		9EB798391E3AEE1F005A7C9E /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		9EB7983E1E3AF9C3005A7C9E /* Torrents */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Torrents; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				9EB798321E3AE884005A7C9E /* Sources */,
+				9EA794C91E3B0E44000D6C50 /* Extensions.swift */,
 				9EB798271E3AE7EA005A7C9E /* Tests */,
 				9EB7981B1E3AE7EA005A7C9E /* Products */,
 			);
@@ -83,6 +91,7 @@
 			children = (
 				9EB7982A1E3AE7EA005A7C9E /* Info.plist */,
 				9EB798281E3AE7EA005A7C9E /* Tests.swift */,
+				9EB7983E1E3AF9C3005A7C9E /* Torrents */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -93,6 +102,7 @@
 				9EB7981E1E3AE7EA005A7C9E /* Info.plist */,
 				9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */,
 				9EB798331E3AEE0B005A7C9E /* Bencode.swift */,
+				9EA794CB1E3B0F82000D6C50 /* Decode.swift */,
 				9EB798351E3AEE1F005A7C9E /* Types */,
 			);
 			path = Sources;
@@ -202,6 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EB7983F1E3AF9C3005A7C9E /* Torrents in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EB798401E3AF9C5005A7C9E /* Torrents in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,11 +231,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA794CD1E3B0F92000D6C50 /* Bencode.swift in Sources */,
+				9EA794D01E3B1E0F000D6C50 /* Decode.swift in Sources */,
 				9EB7983B1E3AEE1F005A7C9E /* Integer.swift in Sources */,
-				9EB7983C1E3AEE1F005A7C9E /* List.swift in Sources */,
-				9EB7983D1E3AEE1F005A7C9E /* String.swift in Sources */,
-				9EB798341E3AEE0B005A7C9E /* Bencode.swift in Sources */,
-				9EB7983A1E3AEE1F005A7C9E /* Dictionary.swift in Sources */,
+				9EA794CE1E3B1691000D6C50 /* String.swift in Sources */,
+				9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */,
+				9EA794CF1E3B1D42000D6C50 /* List.swift in Sources */,
+				9EA794CA1E3B0E44000D6C50 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +525,7 @@
 				9EB7982E1E3AE7EA005A7C9E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9EB7982F1E3AE7EA005A7C9E /* Build configuration list for PBXNativeTarget "BencodeKit-Tests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +534,7 @@
 				9EB798311E3AE7EA005A7C9E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

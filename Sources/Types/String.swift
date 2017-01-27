@@ -6,22 +6,23 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
-internal func bdecodeString(_ string: String, _ index: String.Index) throws -> (match: Bencode, index: String.Index) {
-    guard let (colonOffset, _) = string.substring(from: index).characters.enumerated().first(where: { $1 == ":" }) else {
+internal func bdecodeString(_ data: Data, _ index: Data.Index) throws -> (match: Bencode, index: Data.Index) {
+    guard let (colonOffset, _) = data.subdata(in: Range(uncheckedBounds: (index, data.endIndex))).enumerated().first(where: { $1 == ":" }) else {
         throw BencodingError.invalidStringLength(index)
     }
     
-    let colonIndex = string.index(index, offsetBy: colonOffset)
-    let restIndex = string.index(after: colonIndex)
+    let colonIndex = data.index(index, offsetBy: colonOffset)
+    let restIndex = data.index(after: colonIndex)
+    let lengthString = String(bytes: data.subdata(in: Range(uncheckedBounds: (index, colonIndex))), encoding: .ascii)
     
-    guard let length = UInt(string.substring(with: Range(uncheckedBounds: (index, colonIndex)))).map({ Int($0) }) else {
+    guard let length = lengthString.flatMap({UInt($0)}).map({ Int($0) }) else {
         throw BencodingError.invalidStringLength(index)
     }
     
-    guard let lastIndex = string.index(restIndex, offsetBy: length, limitedBy: string.endIndex) else {
+    guard let lastIndex = data.index(restIndex, offsetBy: length, limitedBy: data.endIndex) else {
         throw BencodingError.invalidStringLength(index)
     }
     
-    let value = string.substring(with: Range(uncheckedBounds: (restIndex, lastIndex)))
-    return (.string(value), string.index(restIndex, offsetBy: length))
+    let value = data.subdata(in: Range(uncheckedBounds: (restIndex, lastIndex)))
+    return (.bytes(value), data.index(restIndex, offsetBy: length))
 }

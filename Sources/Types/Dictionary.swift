@@ -6,30 +6,33 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
-func bdecodeDictionary(_ string: String, _ index: String.Index) throws -> (Bencode, String.Index) {
-    guard string[index] == "d" else {
+func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
+    guard data[index] == "d" else {
         throw BencodingError.invalidDictionary(index)
     }
     
-    var currentIndex = string.index(after: index)
-    guard currentIndex != string.endIndex else {
+    var currentIndex = data.index(after: index)
+    guard currentIndex != data.endIndex else {
         throw BencodingError.unterminatedDictionary(index)
     }
     
     var values: [(String, Bencode)] = []
-    while string[currentIndex] != "e" {
-        let (keyMatch, valueIndex) = try bdecode(string, currentIndex)
-        guard case .string(let key) = keyMatch else {
+    while !(data[currentIndex] == "e") {
+        let (keyMatch, valueIndex) = try bdecode(data, currentIndex)
+        guard case .bytes(let key) = keyMatch else {
             throw BencodingError.nonStringDictionaryKey(currentIndex)
         }
 
-        let (valueMatch, nextIndex) = try bdecode(string, valueIndex)
-        values.append((key, valueMatch))
+        let (valueMatch, nextIndex) = try bdecode(data, valueIndex)
+        guard let stringKey = String(bytes: key, encoding: .ascii) else {
+            throw BencodingError.nonAsciiDictionaryKey(currentIndex)
+        }
+        values.append(stringKey, valueMatch)
         currentIndex = nextIndex
-        guard currentIndex != string.endIndex else {
+        guard currentIndex != data.endIndex else {
             throw BencodingError.unterminatedDictionary(index)
         }
     }
     
-    return (.dictionary(values), string.index(after: currentIndex))
+    return (.dictionary(values), data.index(after: currentIndex))
 }

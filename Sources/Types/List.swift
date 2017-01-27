@@ -6,25 +6,24 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
-func bdecodeList(_ string: String, _ index: String.Index) throws -> (Bencode, String.Index) {
-    guard string[index] == "l" else {
+func bdecodeList(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
+    guard data[index] == "l" else {
         throw BencodingError.invalidList(index)
     }
     
-    var currentIndex = string.index(after: index)
-    guard currentIndex != string.endIndex else {
+    var currentIndex = data.index(after: index)
+    guard currentIndex != data.endIndex else {
         throw BencodingError.unterminatedDictionary(index)
     }
     
     var values: [Bencode] = []
-    while string[currentIndex] != "e" {
-        let (match, index) = try bdecode(string, currentIndex)
+    while !(data[currentIndex] == "e") {
+        let (match, index) = try bdecode(data, currentIndex)
         values.append(match)
         currentIndex = index
-        guard currentIndex != string.endIndex else {
+        guard currentIndex != data.endIndex else {
             throw BencodingError.unterminatedList(index)
         }
     }
-    
-    return (.list(values), string.index(after: currentIndex))
+    return (.list(values), data.index(after: currentIndex))
 }
