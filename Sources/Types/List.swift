@@ -6,14 +6,14 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
-func bdecodeList(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
+internal func bdecodeList(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
     guard data[index] == "l" else {
         throw BencodingError.invalidList(index)
     }
     
     var currentIndex = data.index(after: index)
     guard currentIndex != data.endIndex else {
-        throw BencodingError.unterminatedDictionary(index)
+        throw BencodingError.unterminatedList(index)
     }
     
     var values: [Bencode] = []

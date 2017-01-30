@@ -8,6 +8,7 @@
 
 public enum BencodingError: Error {
     case emptyString
+    case nonExistentFile(String)
     case unexpectedCharacter(Character, Data.Index)
     case negativeZeroEncountered(Data.Index)
     case invalidStringLength(Data.Index)
@@ -20,6 +21,7 @@ public enum BencodingError: Error {
     case nonStringDictionaryKey(Data.Index)
     case nonAsciiDictionaryKey(Data.Index)
     case unterminatedDictionary(Data.Index)
+    case nonAsciiString
 }
 
 public indirect enum Bencode: Equatable {
@@ -32,10 +34,8 @@ public indirect enum Bencode: Equatable {
         self = .integer(integer)
     }
     
-    init?(_ string: String) {
-        guard let value = string.data(using: .ascii) else {
-            return nil
-        }
+    init(_ string: String) throws {
+        guard let value = string.data(using: .ascii) else { throw BencodingError.nonAsciiString }
         self = .bytes(value)
     }
     
@@ -51,16 +51,17 @@ public indirect enum Bencode: Equatable {
         self = .dictionary(dictionary)
     }
     
-    var description: String {
+    func stringRepresentation() throws -> String {
         switch self {
         case .integer(let integer):
             return "i\(String(integer))e"
         case .bytes(let bytes):
-            return "\(bytes.count):\(String(bytes: bytes, encoding: .ascii) ?? "")"
+            guard let string = String(bytes: bytes, encoding: .ascii) else { throw BencodingError.nonAsciiString }
+            return "\(string.characters.count):\(string)"
         case .list(let list):
-            return "l\(list.map({ $0.description }).joined())e"
+            return try "l\(list.map({ try $0.stringRepresentation() }).joined())e"
         case .dictionary(let dictionary):
-            return "d\(dictionary.map({ "\($0.characters.count):\($0)\($1.description)" }).joined())e"
+            return try "d\(dictionary.map({ "\($0.characters.count):\($0)\(try $1.stringRepresentation())" }).joined())e"
         }
     }
 }
@@ -68,6 +69,15 @@ public indirect enum Bencode: Equatable {
 public extension Bencode {
     public static func decode(_ data: Data) throws -> Bencode {
         return try bdecode(data, data.startIndex).match
+    }
+}
+
+public extension Bencode {
+    public static func decodeFile(atPath path: String) throws -> Bencode {
+        guard let data = FileManager.default.contents(atPath: path) else {
+            throw BencodingError.nonExistentFile(path)
+        }
+        return try decode(data)
     }
 }
 

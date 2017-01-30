@@ -15,7 +15,7 @@ internal func bdecodeString(_ data: Data, _ index: Data.Index) throws -> (match:
     let restIndex = data.index(after: colonIndex)
     let lengthString = String(bytes: data.subdata(in: Range(uncheckedBounds: (index, colonIndex))), encoding: .ascii)
     
-    guard let length = lengthString.flatMap({UInt($0)}).map({ Int($0) }) else {
+    guard let length = lengthString.flatMap({ UInt($0) }).map({ Int($0) }) else {
         throw BencodingError.invalidStringLength(index)
     }
     

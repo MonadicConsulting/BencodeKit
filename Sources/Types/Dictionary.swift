@@ -6,7 +6,7 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
-func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
+internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
     guard data[index] == "d" else {
         throw BencodingError.invalidDictionary(index)
     }
