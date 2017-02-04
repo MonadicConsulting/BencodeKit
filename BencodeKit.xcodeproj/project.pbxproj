@@ -13,6 +13,8 @@
 		9EA794CF1E3B1D42000D6C50 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798381E3AEE1F005A7C9E /* List.swift */; };
 		9EA794D01E3B1E0F000D6C50 /* Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794CB1E3B0F82000D6C50 /* Decode.swift */; };
 		9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798361E3AEE1F005A7C9E /* Dictionary.swift */; };
+		9EA794EB1E41D11A000D6C50 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA794E71E41D104000D6C50 /* CryptoSwift.framework */; };
+		9EA794ED1E41DC86000D6C50 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */; };
 		9EB798241E3AE7EA005A7C9E /* BencodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */; };
 		9EB798291E3AE7EA005A7C9E /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798281E3AE7EA005A7C9E /* Tests.swift */; };
 		9EB7982B1E3AE7EA005A7C9E /* BencodeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -22,6 +24,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9EA794E61E41D104000D6C50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 754BE45519693E190098E6F3;
+			remoteInfo = CryptoSwift;
+		};
+		9EA794E81E41D104000D6C50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 754BE46019693E190098E6F3;
+			remoteInfo = Tests;
+		};
 		9EB798251E3AE7EA005A7C9E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EB7980F1E3AE7B7005A7C9E /* Project object */;
@@ -34,6 +50,8 @@
 /* Begin PBXFileReference section */
 		9EA794C91E3B0E44000D6C50 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Types/Extensions.swift; sourceTree = "<group>"; };
 		9EA794CB1E3B0F82000D6C50 /* Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decode.swift; sourceTree = "<group>"; };
+		9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = Carthage/Checkouts/CryptoSwift/CryptoSwift.xcodeproj; sourceTree = "<group>"; };
+		9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BencodeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BencodeKit.h; sourceTree = "<group>"; };
 		9EB7981E1E3AE7EA005A7C9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA794EB1E41D11A000D6C50 /* CryptoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,12 +86,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9EA794E21E41D104000D6C50 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9EA794E71E41D104000D6C50 /* CryptoSwift.framework */,
+				9EA794E91E41D104000D6C50 /* Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9EA794EA1E41D109000D6C50 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9EB7980E1E3AE7B7005A7C9E = {
 			isa = PBXGroup;
 			children = (
 				9EB798321E3AE884005A7C9E /* Sources */,
 				9EA794C91E3B0E44000D6C50 /* Extensions.swift */,
+				9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */,
 				9EB798271E3AE7EA005A7C9E /* Tests */,
+				9EA794EA1E41D109000D6C50 /* Frameworks */,
 				9EB7981B1E3AE7EA005A7C9E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -199,6 +237,12 @@
 			mainGroup = 9EB7980E1E3AE7B7005A7C9E;
 			productRefGroup = 9EB7981B1E3AE7EA005A7C9E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9EA794E21E41D104000D6C50 /* Products */;
+					ProjectRef = 9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9EB798191E3AE7EA005A7C9E /* BencodeKit */,
@@ -206,6 +250,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9EA794E71E41D104000D6C50 /* CryptoSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CryptoSwift.framework;
+			remoteRef = 9EA794E61E41D104000D6C50 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9EA794E91E41D104000D6C50 /* Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.xctest;
+			remoteRef = 9EA794E81E41D104000D6C50 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9EB798181E3AE7EA005A7C9E /* Resources */ = {
@@ -236,6 +297,7 @@
 				9EB7983B1E3AEE1F005A7C9E /* Integer.swift in Sources */,
 				9EA794CE1E3B1691000D6C50 /* String.swift in Sources */,
 				9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */,
+				9EA794ED1E41DC86000D6C50 /* OrderedDictionary.swift in Sources */,
 				9EA794CF1E3B1D42000D6C50 /* List.swift in Sources */,
 				9EA794CA1E3B0E44000D6C50 /* Extensions.swift in Sources */,
 			);

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5DACB94A295467AC42BB859D293EBBB616E74CA7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5DACB94A295467AC42BB859D293EBBB616E74CA7" : 9223372036854775807,
+    "C3D8ED1CB28D809ADCE2C0DE74935E8A502ACD53" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6F419A56-5F35-417F-BBBB-FC8C714B2AB6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5DACB94A295467AC42BB859D293EBBB616E74CA7" : "BencodeKit\/",
+    "C3D8ED1CB28D809ADCE2C0DE74935E8A502ACD53" : "BencodeKit\/CryptoSwift\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BencodeKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BencodeKit.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:MonadicConsulting\/BencodeKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DACB94A295467AC42BB859D293EBBB616E74CA7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/krzyzanowskim\/CryptoSwift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C3D8ED1CB28D809ADCE2C0DE74935E8A502ACD53"
+    }
+  ]
+}

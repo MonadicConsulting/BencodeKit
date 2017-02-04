@@ -24,8 +24,9 @@ internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Be
         }
 
         let (valueMatch, nextIndex) = try bdecode(data, valueIndex)
-        guard let stringKey = String(bytes: key, encoding: .ascii) else {
-            throw BencodingError.nonAsciiDictionaryKey(currentIndex)
+        
+        let stringKey = key.reduce("") { string, byte in
+            string.appendingFormat("%c", byte)
         }
         values.append(stringKey, valueMatch)
         currentIndex = nextIndex
@@ -34,5 +35,5 @@ internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Be
         }
     }
     
-    return (.dictionary(values), data.index(after: currentIndex))
+    return (.dictionary(BencodeDictionary(values)), data.index(after: currentIndex))
 }

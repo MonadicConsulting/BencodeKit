@@ -39,8 +39,8 @@ class BencodeKitTests: XCTestCase {
     
     func testDictionaryParsing() {
         _ = Bencode([("", Bencode(0))])
-        testParsing("d4:nulli-123456789e2:hilee", .dictionary([("null", .integer(-123456789)), ("hi", .list([]))]))
-        testParsing("de", .dictionary([]))
+        testParsing("d4:nulli-123456789e2:hilee", .dictionary(BencodeDictionary([("null", .integer(-123456789)), ("hi", .list([]))])))
+        testParsing("de", .dictionary(BencodeDictionary()))
         compareToReencoding("d4:nulli-123456789e2:hilee")
         compareToReencoding("de")
         compareToReencoding("d5:hello5:theree")
@@ -72,12 +72,50 @@ class BencodeKitTests: XCTestCase {
                 let decoded = try! Bencode.decode(encoded)
                 let reEncoded = decoded.encoded()
                 XCTAssertEqual(encoded, reEncoded)
-                _ = try! decoded.stringRepresentation()
+                _ = decoded.encodedString()
         }
         filePaths
             .map { try! Bencode.decodeFile(atPath: $0) }
             .forEach { decoded in
-                _ = try! decoded.stringRepresentation()
+                _ = decoded.encodedString()
+        }
+    }
+    
+    func testDecodeTime() {
+        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
+        let encoded = FileManager.default.contents(atPath: filePath)!
+        self.measure {
+            _ = try! Bencode.decode(encoded)
+        }
+    }
+    
+    func testEncodeTime() {
+        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
+        let encoded = FileManager.default.contents(atPath: filePath)!
+        let decoded = try! Bencode.decode(encoded)
+        self.measure {
+            _ = decoded.encoded()
+        }
+    }
+    
+    func testStringifyTime() {
+        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
+        let encoded = FileManager.default.contents(atPath: filePath)!
+        let decoded = try! Bencode.decode(encoded)
+        self.measure {
+            _ = decoded.encodedString()
+        }
+    }
+    
+    func testSha1() {
+        let filePaths = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents")
+        filePaths
+            .flatMap(FileManager.default.contents)
+            .forEach { encoded in
+                let decoded = try! Bencode.decode(encoded)
+                _ = decoded.toString()
+                print(decoded["info"]!["name"]!.toString())
+                print(decoded["info"]!.sha1Hash())
         }
     }
 }
@@ -86,7 +124,7 @@ func compareToReencoding(_ param: String) {
     let data = param.asciiData
     let decoded = try! Bencode.decode(data)
     XCTAssertEqual(data, decoded.encoded())
-    XCTAssertEqual(param, try! decoded.stringRepresentation())
+    XCTAssertEqual(param, decoded.encodedString())
 }
 
 func testParsing(_ param: String, _ compareTo: Bencode) {

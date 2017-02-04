@@ -6,6 +6,8 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import CryptoSwift
+
 public enum BencodingError: Error {
     case emptyString
     case nonExistentFile(String)
@@ -19,7 +21,6 @@ public enum BencodingError: Error {
     case unterminatedList(Data.Index)
     case invalidDictionary(Data.Index)
     case nonStringDictionaryKey(Data.Index)
-    case nonAsciiDictionaryKey(Data.Index)
     case unterminatedDictionary(Data.Index)
     case nonAsciiString
 }
@@ -28,7 +29,7 @@ public indirect enum Bencode: Equatable {
     case integer(Int)
     case bytes(Data)
     case list([Bencode])
-    case dictionary([(String, Bencode)])
+    case dictionary(BencodeDictionary)
     
     init(_ integer: Int) {
         self = .integer(integer)
@@ -48,20 +49,51 @@ public indirect enum Bencode: Equatable {
     }
     
     init(_ dictionary: [(String, Bencode)]) {
+        self.init(BencodeDictionary(dictionary))
+    }
+    
+    init(_ dictionary: BencodeDictionary) {
         self = .dictionary(dictionary)
     }
     
-    func stringRepresentation() throws -> String {
+    func encodedString() -> String {
         switch self {
         case .integer(let integer):
             return "i\(String(integer))e"
         case .bytes(let bytes):
-            guard let string = String(bytes: bytes, encoding: .ascii) else { throw BencodingError.nonAsciiString }
+            let string = bytes.reduce("") { string, byte in
+                string.appendingFormat("%c", byte)
+            }
             return "\(string.characters.count):\(string)"
         case .list(let list):
-            return try "l\(list.map({ try $0.stringRepresentation() }).joined())e"
+            return "l\(list.map({ $0.encodedString() }).joined())e"
         case .dictionary(let dictionary):
-            return try "d\(dictionary.map({ "\($0.characters.count):\($0)\(try $1.stringRepresentation())" }).joined())e"
+            return "d\(dictionary.map({ "\($0.characters.count):\($0)\($1.encodedString())" }).joined())e"
+        }
+    }
+    
+    func toString() -> String {
+        switch self {
+        case .integer(let integer):
+            return String(integer)
+        case .bytes(let bytes):
+            return bytes.reduce("") { string, byte in
+                string.appendingFormat("%c", byte)
+            }
+        case .list(let list):
+            return "[" + list.map({ $0.toString() }).joined(separator: ", ") + "]"
+        case .dictionary(let dictionary):
+            return "[" + dictionary.map({ "\"\($0)\": \($1.toString())" }).joined(separator: ", ") + "]"
+        }
+
+    }
+    
+    subscript(index: String) -> Bencode? {
+        get {
+            guard case .dictionary(let dictionary) = self else {
+                return nil
+            }
+            return dictionary[index]
         }
     }
 }
@@ -92,6 +124,14 @@ public extension Bencode {
             return "l".asciiData + list.map({ $0.encoded() }).joined() + "e".asciiData
         case .dictionary(let dictionary):
             return "d".asciiData + dictionary.map({ "\($0.characters.count):\($0)".asciiData + $1.encoded() }).joined() + "e".asciiData
+        }
+    }
+}
+
+public extension Bencode {
+    func sha1Hash() -> String {
+        return SHA1().calculate(for: encoded().bytes).reduce("") { hex, byte in
+            hex.appendingFormat("%02x", byte)
         }
     }
 }

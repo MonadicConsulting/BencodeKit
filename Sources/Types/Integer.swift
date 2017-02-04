@@ -21,8 +21,6 @@ internal func bdecodeInteger(_ data: Data, _ index: Data.Index) throws -> (match
         throw BencodingError.negativeZeroEncountered(index)
     }
     
-    print(integerString)
-    
     guard let value = Int(integerString) else {
         throw BencodingError.contaminatedInteger(index)
     }
