@@ -29,7 +29,7 @@ public indirect enum Bencode: Equatable {
     case integer(Int)
     case bytes(Data)
     case list([Bencode])
-    case dictionary(BencodeDictionary)
+    case dictionary(OrderedDictionary<String, Bencode>)
     
     init(_ integer: Int) {
         self = .integer(integer)
@@ -49,46 +49,42 @@ public indirect enum Bencode: Equatable {
     }
     
     init(_ dictionary: [(String, Bencode)]) {
-        self.init(BencodeDictionary(dictionary))
+        self.init(OrderedDictionary<String, Bencode>(dictionary))
     }
     
-    init(_ dictionary: BencodeDictionary) {
+    init(_ dictionary: OrderedDictionary<String, Bencode>) {
         self = .dictionary(dictionary)
     }
     
-    func encodedString() -> String {
+    public func encodedString() -> String {
         switch self {
         case .integer(let integer):
             return "i\(String(integer))e"
         case .bytes(let bytes):
-            let string = bytes.reduce("") { string, byte in
-                string.appendingFormat("%c", byte)
-            }
+            let string = bytes.asciiString
             return "\(string.characters.count):\(string)"
         case .list(let list):
-            return "l\(list.map({ $0.encodedString() }).joined())e"
+            return "l\(list.map { $0.encodedString() }.joined())e"
         case .dictionary(let dictionary):
-            return "d\(dictionary.map({ "\($0.characters.count):\($0)\($1.encodedString())" }).joined())e"
+            return "d\(dictionary.map { "\($0.characters.count):\($0)\($1.encodedString())" }.joined())e"
         }
     }
     
-    func toString() -> String {
+    public func toString() -> String {
         switch self {
         case .integer(let integer):
             return String(integer)
         case .bytes(let bytes):
-            return bytes.reduce("") { string, byte in
-                string.appendingFormat("%c", byte)
-            }
+            return bytes.asciiString
         case .list(let list):
-            return "[" + list.map({ $0.toString() }).joined(separator: ", ") + "]"
+            return "[" + list.map { $0.toString() }.joined(separator: ", ") + "]"
         case .dictionary(let dictionary):
-            return "[" + dictionary.map({ "\"\($0)\": \($1.toString())" }).joined(separator: ", ") + "]"
+            return "[" + dictionary.map { "\"\($0)\": \($1.toString())" }.joined(separator: ", ") + "]"
         }
 
     }
     
-    subscript(index: String) -> Bencode? {
+    public subscript(index: String) -> Bencode? {
         get {
             guard case .dictionary(let dictionary) = self else {
                 return nil
@@ -121,18 +117,16 @@ public extension Bencode {
         case .bytes(let bytes):
             return "\(bytes.count):".asciiData + bytes
         case .list(let list):
-            return "l".asciiData + list.map({ $0.encoded() }).joined() + "e".asciiData
+            return "l".asciiData + list.map { $0.encoded() }.joined() + "e".asciiData
         case .dictionary(let dictionary):
-            return "d".asciiData + dictionary.map({ "\($0.characters.count):\($0)".asciiData + $1.encoded() }).joined() + "e".asciiData
+            return "d".asciiData + dictionary.map { "\($0.characters.count):\($0)".asciiData + $1.encoded() }.joined() + "e".asciiData
         }
     }
 }
 
 public extension Bencode {
-    func sha1Hash() -> String {
-        return SHA1().calculate(for: encoded().bytes).reduce("") { hex, byte in
-            hex.appendingFormat("%02x", byte)
-        }
+    public func sha1Hash() -> String {
+        return SHA1().calculate(for: encoded().bytes).reduce("") { $0.appendingFormat("%02x", $1) }
     }
 }
 
@@ -143,11 +137,11 @@ public extension Bencode {
             return a == b
         case (.bytes(let a), .bytes(let b)):
             return a == b
-        case (.list(let a), .list(let b)):
-            return a.count == b.count && zip(a, b).reduce(true, { $0 && ($1.0 == $1.1) })
-        case (.dictionary(let a), .dictionary(let b)):
-            return a.count == b.count && zip(a, b).reduce(true, { $0 && ($1.0 == $1.1) })
-        case _:
+        case (.list(let a), .list(let b)) where a.count == b.count:
+            return zip(a, b).all(where: ==)
+        case (.dictionary(let a), .dictionary(let b)) where a.count == b.count:
+            return zip(a, b).all(where: ==)
+        default:
             return false
         }
     }

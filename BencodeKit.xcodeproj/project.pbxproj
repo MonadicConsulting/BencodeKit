@@ -14,7 +14,6 @@
 		9EA794D01E3B1E0F000D6C50 /* Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794CB1E3B0F82000D6C50 /* Decode.swift */; };
 		9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798361E3AEE1F005A7C9E /* Dictionary.swift */; };
 		9EA794EB1E41D11A000D6C50 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA794E71E41D104000D6C50 /* CryptoSwift.framework */; };
-		9EA794ED1E41DC86000D6C50 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */; };
 		9EB798241E3AE7EA005A7C9E /* BencodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */; };
 		9EB798291E3AE7EA005A7C9E /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB798281E3AE7EA005A7C9E /* Tests.swift */; };
 		9EB7982B1E3AE7EA005A7C9E /* BencodeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,10 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9EA794C91E3B0E44000D6C50 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Types/Extensions.swift; sourceTree = "<group>"; };
+		9EA794C91E3B0E44000D6C50 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9EA794CB1E3B0F82000D6C50 /* Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decode.swift; sourceTree = "<group>"; };
 		9EA794E11E41D104000D6C50 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = Carthage/Checkouts/CryptoSwift/CryptoSwift.xcodeproj; sourceTree = "<group>"; };
-		9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		9EB7981A1E3AE7EA005A7C9E /* BencodeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BencodeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EB7981D1E3AE7EA005A7C9E /* BencodeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BencodeKit.h; sourceTree = "<group>"; };
 		9EB7981E1E3AE7EA005A7C9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,8 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				9EB798321E3AE884005A7C9E /* Sources */,
-				9EA794C91E3B0E44000D6C50 /* Extensions.swift */,
-				9EA794EC1E41DC86000D6C50 /* OrderedDictionary.swift */,
 				9EB798271E3AE7EA005A7C9E /* Tests */,
 				9EA794EA1E41D109000D6C50 /* Frameworks */,
 				9EB7981B1E3AE7EA005A7C9E /* Products */,
@@ -149,6 +145,7 @@
 		9EB798351E3AEE1F005A7C9E /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				9EA794C91E3B0E44000D6C50 /* Extensions.swift */,
 				9EB798361E3AEE1F005A7C9E /* Dictionary.swift */,
 				9EB798371E3AEE1F005A7C9E /* Integer.swift */,
 				9EB798381E3AEE1F005A7C9E /* List.swift */,
@@ -297,7 +294,6 @@
 				9EB7983B1E3AEE1F005A7C9E /* Integer.swift in Sources */,
 				9EA794CE1E3B1691000D6C50 /* String.swift in Sources */,
 				9EA794D11E3B1E8F000D6C50 /* Dictionary.swift in Sources */,
-				9EA794ED1E41DC86000D6C50 /* OrderedDictionary.swift in Sources */,
 				9EA794CF1E3B1D42000D6C50 /* List.swift in Sources */,
 				9EA794CA1E3B0E44000D6C50 /* Extensions.swift in Sources */,
 			);
@@ -325,12 +321,48 @@
 		9EB798131E3AE7B7005A7C9E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		9EB798141E3AE7B7005A7C9E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Release;
 		};
@@ -384,6 +416,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = monadicconsulting.github.io.BencodeKit;
@@ -444,6 +477,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = monadicconsulting.github.io.BencodeKit;
 				PRODUCT_NAME = "$(PROJECT_NAME)";

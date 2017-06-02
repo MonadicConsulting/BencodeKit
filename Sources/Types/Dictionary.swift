@@ -6,6 +6,62 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+public struct OrderedDictionary<Key: Hashable, Value>: Collection {
+    public typealias Index = Int
+    
+    public func index(after i: Index) -> Index {
+        return i + 1
+    }
+    
+    public var startIndex: Index {
+        return 0
+    }
+    
+    public var endIndex: Index {
+        return keys.count
+    }
+    
+    public var keys: Array<Key> = []
+    public var values: Array<Value> {
+        return keys.flatMap { dictionary[$0] }
+    }
+    private var dictionary: Dictionary<Key,Value> = [:]
+    
+    public init(_ elements: [(Key, Value)] = []) {
+        self.keys = elements.map { $0.0 }
+        self.dictionary = elements.reduce(into: [:]) { dictionary, pair in
+            dictionary[pair.0] = pair.1
+        }
+    }
+    
+    public init(_ elements: (Key, Value)...) {
+        self.init(elements)
+    }
+    
+    public subscript(key: Key) -> Value? {
+        get {
+            return dictionary[key]
+        }
+        set(newValue) {
+            if let value = newValue {
+                if dictionary.updateValue(value, forKey: key) == nil {
+                    keys.append(key)
+                }
+            } else {
+                dictionary.removeValue(forKey: key)
+                keys = keys.filter { $0 != key }
+            }
+        }
+    }
+    
+    public subscript(index: Index) -> (Key, Value) {
+        get {
+            let key = keys[index]
+            return (key, dictionary[key]!)
+        }
+    }
+}
+
 internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
     guard data[index] == "d" else {
         throw BencodingError.invalidDictionary(index)
@@ -35,5 +91,5 @@ internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Be
         }
     }
     
-    return (.dictionary(BencodeDictionary(values)), data.index(after: currentIndex))
+    return (.dictionary(OrderedDictionary(values)), data.index(after: currentIndex))
 }

@@ -22,6 +22,8 @@ class BencodeKitTests: XCTestCase {
     
     func testStringParsing() {
         testParsing("12:123456789123", try! Bencode("123456789123"))
+        testParsing("0:", try! Bencode(""))
+        compareToReencoding("0:")
         
         expectException("-13:40", bdecodeString)
         expectException("4:lkd")
@@ -39,8 +41,8 @@ class BencodeKitTests: XCTestCase {
     
     func testDictionaryParsing() {
         _ = Bencode([("", Bencode(0))])
-        testParsing("d4:nulli-123456789e2:hilee", .dictionary(BencodeDictionary([("null", .integer(-123456789)), ("hi", .list([]))])))
-        testParsing("de", .dictionary(BencodeDictionary()))
+        testParsing("d4:nulli-123456789e2:hilee", .dictionary(OrderedDictionary([("null", .integer(-123456789)), ("hi", .list([]))])))
+        testParsing("de", .dictionary(OrderedDictionary()))
         compareToReencoding("d4:nulli-123456789e2:hilee")
         compareToReencoding("de")
         compareToReencoding("d5:hello5:theree")
@@ -117,6 +119,17 @@ class BencodeKitTests: XCTestCase {
                 print(decoded["info"]!["name"]!.toString())
                 print(decoded["info"]!.sha1Hash())
         }
+    }
+    
+    func testOrderedDictionary() {
+        var dictionary = OrderedDictionary(("hello", try! Bencode("there")))
+        XCTAssertEqual(dictionary["hello"], try! Bencode("there"))
+        dictionary["hello"] = Bencode(0)
+        dictionary["what"] = Bencode(10)
+        XCTAssertEqual(dictionary["hello"], Bencode(0))
+        XCTAssertEqual(dictionary["what"], Bencode(10))
+        dictionary["what"] = nil
+        XCTAssertEqual(dictionary["what"], nil)
     }
 }
 
