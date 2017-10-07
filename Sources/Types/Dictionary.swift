@@ -25,13 +25,11 @@ public struct OrderedDictionary<Key: Hashable, Value>: Collection {
     public var values: Array<Value> {
         return keys.flatMap { dictionary[$0] }
     }
-    private var dictionary: Dictionary<Key,Value> = [:]
+    private var dictionary: Dictionary<Key, Value> = [:]
     
     public init(_ elements: [(Key, Value)] = []) {
         self.keys = elements.map { $0.0 }
-        self.dictionary = elements.reduce(into: [:]) { dictionary, pair in
-            dictionary[pair.0] = pair.1
-        }
+        self.dictionary = Dictionary(uniqueKeysWithValues: elements)
     }
     
     public init(_ elements: (Key, Value)...) {
@@ -84,7 +82,7 @@ internal func bdecodeDictionary(_ data: Data, _ index: Data.Index) throws -> (Be
         let stringKey = key.reduce("") { string, byte in
             string.appendingFormat("%c", byte)
         }
-        values.append(stringKey, valueMatch)
+        values.append((stringKey, valueMatch))
         currentIndex = nextIndex
         guard currentIndex != data.endIndex else {
             throw BencodingError.unterminatedDictionary(index)

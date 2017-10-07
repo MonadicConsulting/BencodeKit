@@ -62,11 +62,11 @@ public indirect enum Bencode: Equatable {
             return "i\(String(integer))e"
         case .bytes(let bytes):
             let string = bytes.asciiString
-            return "\(string.characters.count):\(string)"
+            return "\(string.count):\(string)"
         case .list(let list):
             return "l\(list.map { $0.encodedString() }.joined())e"
         case .dictionary(let dictionary):
-            return "d\(dictionary.map { "\($0.characters.count):\($0)\($1.encodedString())" }.joined())e"
+            return "d\(dictionary.map { "\($0.count):\($0)\($1.encodedString())" }.joined())e"
         }
     }
     
@@ -119,7 +119,7 @@ public extension Bencode {
         case .list(let list):
             return "l".asciiData + list.map { $0.encoded() }.joined() + "e".asciiData
         case .dictionary(let dictionary):
-            return "d".asciiData + dictionary.map { "\($0.characters.count):\($0)".asciiData + $1.encoded() }.joined() + "e".asciiData
+            return "d".asciiData + dictionary.map { "\($0.count):\($0)".asciiData + $1.encoded() }.joined() + "e".asciiData
         }
     }
 }
