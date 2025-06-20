@@ -129,7 +129,7 @@ public extension Bencode {
     func sha1Hash() -> String {
         Insecure.SHA1
             .hash(data: encoded())
-            .map { String(format: "%02X", $0) }
+            .map { String(format: "%02x", $0) }
             .joined()
     }
 }
