@@ -6,6 +6,8 @@
 //
 //
 
+import Foundation
+
 func ==(lhs: Character, rhs: UInt8) -> Bool {
     return lhs == Character(UnicodeScalar(rhs))
 }

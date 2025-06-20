@@ -6,6 +6,7 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
 import CryptoSwift
 
 public enum BencodingError: Error {
@@ -95,13 +96,13 @@ public indirect enum Bencode: Equatable {
 }
 
 public extension Bencode {
-    public static func decode(_ data: Data) throws -> Bencode {
+    static func decode(_ data: Data) throws -> Bencode {
         return try bdecode(data, data.startIndex).match
     }
 }
 
 public extension Bencode {
-    public static func decodeFile(atPath path: String) throws -> Bencode {
+    static func decodeFile(atPath path: String) throws -> Bencode {
         guard let data = FileManager.default.contents(atPath: path) else {
             throw BencodingError.nonExistentFile(path)
         }
@@ -110,7 +111,7 @@ public extension Bencode {
 }
 
 public extension Bencode {
-    public func encoded() -> Data {
+    func encoded() -> Data {
         switch self {
         case .integer(let integer):
             return "i\(String(integer))e".asciiData
@@ -125,13 +126,13 @@ public extension Bencode {
 }
 
 public extension Bencode {
-    public func sha1Hash() -> String {
+    func sha1Hash() -> String {
         return SHA1().calculate(for: encoded().bytes).reduce("") { $0.appendingFormat("%02x", $1) }
     }
 }
 
 public extension Bencode {
-    public static func ==(lhs: Bencode, rhs: Bencode) -> Bool {
+    static func ==(lhs: Bencode, rhs: Bencode) -> Bool {
         switch (lhs, rhs) {
         case (.integer(let a), .integer(let b)):
             return a == b

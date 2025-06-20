@@ -6,6 +6,8 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
+
 public struct OrderedDictionary<Key: Hashable, Value>: Collection {
     public typealias Index = Int
     

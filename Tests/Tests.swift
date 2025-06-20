@@ -67,33 +67,61 @@ class BencodeKitTests: XCTestCase {
     }
     
     func testTorrentFiles() {
-        let filePaths = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents")
-        filePaths
-            .flatMap(FileManager.default.contents)
-            .forEach { encoded in
-                let decoded = try! Bencode.decode(encoded)
-                let reEncoded = decoded.encoded()
-                XCTAssertEqual(encoded, reEncoded)
-                _ = decoded.encodedString()
+        guard let resourceURL = Bundle.module.resourceURL?.appendingPathComponent("Torrents") else {
+            XCTFail("Could not find Torrents directory")
+            return
         }
-        filePaths
-            .map { try! Bencode.decodeFile(atPath: $0) }
-            .forEach { decoded in
-                _ = decoded.encodedString()
+        
+        let fileManager = FileManager.default
+        guard let torrentFiles = try? fileManager.contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: [])
+            .filter({ $0.pathExtension == "torrent" }) else {
+            XCTFail("Could not read torrent files")
+            return
+        }
+        
+        for torrentURL in torrentFiles {
+            guard let encoded = try? Data(contentsOf: torrentURL) else {
+                XCTFail("Could not read torrent file: \(torrentURL)")
+                continue
+            }
+            
+            let decoded = try! Bencode.decode(encoded)
+            let reEncoded = decoded.encoded()
+            XCTAssertEqual(encoded, reEncoded)
+            _ = decoded.encodedString()
+        }
+        
+        for torrentURL in torrentFiles {
+            let decoded = try! Bencode.decodeFile(atPath: torrentURL.path)
+            _ = decoded.encodedString()
         }
     }
     
     func testDecodeTime() {
-        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
-        let encoded = FileManager.default.contents(atPath: filePath)!
+        guard let resourceURL = Bundle.module.resourceURL?.appendingPathComponent("Torrents"),
+              let torrentFiles = try? FileManager.default.contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: [])
+                .filter({ $0.pathExtension == "torrent" }),
+              let firstTorrent = torrentFiles.first,
+              let encoded = try? Data(contentsOf: firstTorrent) else {
+            XCTFail("Could not find torrent files for performance test")
+            return
+        }
+        
         self.measure {
             _ = try! Bencode.decode(encoded)
         }
     }
     
     func testEncodeTime() {
-        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
-        let encoded = FileManager.default.contents(atPath: filePath)!
+        guard let resourceURL = Bundle.module.resourceURL?.appendingPathComponent("Torrents"),
+              let torrentFiles = try? FileManager.default.contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: [])
+                .filter({ $0.pathExtension == "torrent" }),
+              let firstTorrent = torrentFiles.first,
+              let encoded = try? Data(contentsOf: firstTorrent) else {
+            XCTFail("Could not find torrent files for performance test")
+            return
+        }
+        
         let decoded = try! Bencode.decode(encoded)
         self.measure {
             _ = decoded.encoded()
@@ -101,8 +129,15 @@ class BencodeKitTests: XCTestCase {
     }
     
     func testStringifyTime() {
-        let filePath = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents").first!
-        let encoded = FileManager.default.contents(atPath: filePath)!
+        guard let resourceURL = Bundle.module.resourceURL?.appendingPathComponent("Torrents"),
+              let torrentFiles = try? FileManager.default.contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: [])
+                .filter({ $0.pathExtension == "torrent" }),
+              let firstTorrent = torrentFiles.first,
+              let encoded = try? Data(contentsOf: firstTorrent) else {
+            XCTFail("Could not find torrent files for performance test")
+            return
+        }
+        
         let decoded = try! Bencode.decode(encoded)
         self.measure {
             _ = decoded.encodedString()
@@ -110,14 +145,22 @@ class BencodeKitTests: XCTestCase {
     }
     
     func testSha1() {
-        let filePaths = Bundle(for: type(of: self)).paths(forResourcesOfType: "torrent", inDirectory: "Torrents")
-        filePaths
-            .flatMap(FileManager.default.contents)
-            .forEach { encoded in
-                let decoded = try! Bencode.decode(encoded)
-                _ = decoded.toString()
-                print(decoded["info"]!["name"]!.toString())
-                print(decoded["info"]!.sha1Hash())
+        guard let resourceURL = Bundle.module.resourceURL?.appendingPathComponent("Torrents"),
+              let torrentFiles = try? FileManager.default.contentsOfDirectory(at: resourceURL, includingPropertiesForKeys: nil, options: [])
+                .filter({ $0.pathExtension == "torrent" }) else {
+            XCTFail("Could not find torrent files")
+            return
+        }
+        
+        for torrentURL in torrentFiles {
+            guard let encoded = try? Data(contentsOf: torrentURL) else {
+                continue
+            }
+            
+            let decoded = try! Bencode.decode(encoded)
+            _ = decoded.toString()
+            print(decoded["info"]!["name"]!.toString())
+            print(decoded["info"]!.sha1Hash())
         }
     }
     

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
+
 internal func bdecodeInteger(_ data: Data, _ index: Data.Index) throws -> (match: Bencode, index: Data.Index) {
     guard data[index] == "i" else {
         throw BencodingError.invalidInteger(index)

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
+
 internal func bdecodeString(_ data: Data, _ index: Data.Index) throws -> (match: Bencode, index: Data.Index) {
     guard let (colonOffset, _) = data.subdata(in: Range(uncheckedBounds: (index, data.endIndex))).enumerated().first(where: { $1 == ":" }) else {
         throw BencodingError.invalidStringLength(index)

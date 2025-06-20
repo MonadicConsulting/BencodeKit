@@ -6,6 +6,8 @@
 //  Copyright © 2017 Monadic Consulting. All rights reserved.
 //
 
+import Foundation
+
 internal func bdecodeList(_ data: Data, _ index: Data.Index) throws -> (Bencode, Data.Index) {
     guard data[index] == "l" else {
         throw BencodingError.invalidList(index)

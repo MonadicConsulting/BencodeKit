@@ -6,6 +6,8 @@
 //
 //
 
+import Foundation
+
 internal func bdecode(_ data: Data, _ index: Data.Index) throws -> (match: Bencode, index: Data.Index) {
     guard !data.isEmpty else {
         throw BencodingError.emptyString
