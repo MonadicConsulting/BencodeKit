@@ -25,7 +25,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: Collection {
     
     public var keys: Array<Key> = []
     public var values: Array<Value> {
-        return keys.flatMap { dictionary[$0] }
+        return keys.compactMap { dictionary[$0] }
     }
     private var dictionary: Dictionary<Key, Value> = [:]
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CryptoSwift
+import CryptoKit
 
 public enum BencodingError: Error {
     case emptyString
@@ -127,7 +127,10 @@ public extension Bencode {
 
 public extension Bencode {
     func sha1Hash() -> String {
-        return SHA1().calculate(for: encoded().bytes).reduce("") { $0.appendingFormat("%02x", $1) }
+        Insecure.SHA1
+            .hash(data: encoded())
+            .map { String(format: "%02X", $0) }
+            .joined()
     }
 }
 

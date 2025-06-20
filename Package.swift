@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "BencodeKit",
     platforms: [
-        .macOS(.v10_13),
-        .iOS(.v12),
-        .tvOS(.v12),
-        .watchOS(.v4)
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6)
     ],
     products: [
         .library(
@@ -17,12 +17,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "BencodeKit",
-            dependencies: ["CryptoSwift"],
+            dependencies: [],
             path: "Sources"
         ),
         .testTarget(

@@ -25,6 +25,9 @@ internal func bdecode(_ data: Data, _ index: Data.Index) throws -> (match: Benco
     case UInt8("l"):
         return try bdecodeList(data, index)
     default:
-        throw BencodingError.unexpectedCharacter(Character(UnicodeScalar(character)), index)
+        throw BencodingError.unexpectedCharacter(
+            Character(UnicodeScalar(character)),
+            index
+        )
     }
 }
